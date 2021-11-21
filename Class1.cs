@@ -44,8 +44,8 @@ namespace ClassLibrary1
         [Test]
         public void Test6()
         {
-            int a = 132189;
-            Assert.AreEqual(6, Digital_Root(a));
+            int a = 1234567;
+            Assert.AreEqual(1, Digital_Root(a));
         }
         [Test]
         public void Test7()
@@ -68,20 +68,15 @@ namespace ClassLibrary1
         [Test]
         public void Test10()
         {
-            List<KeyValuePair<string, string>> l = new List<KeyValuePair<string, string>> { 
-                new KeyValuePair<string, string>("ALFRED", "CORWILL"), new KeyValuePair<string, string>("FRED", "CORWILL"),
-                new KeyValuePair<string, string>("RAPHAEL", "CORWILL"), new KeyValuePair<string, string>("WILFRED", "CORWILL"), 
-                new KeyValuePair<string, string>("BARNEY", "TORNBULL"), new KeyValuePair<string, string>("BETTY", "TORNBULL"),
-                new KeyValuePair<string, string>("BJON", "TORNBULL")};
+            //string l = "(CORWILL, ALFRED)(CORWILL, FRED)(CORWILL, RAPHAEL)(CORWILL, WILFRED)(TORNBULL, BARNEY)(TORNBULL, BETTY)(TORNBULL, BJON)";
+            string exmp = "(CORWILL, ALFRED)(CORWILL, FRED)(CORWILL, RAPHAEL)(CORWILL, WILFRED)(TORNBULL, BARNEY)(TORNBULL, BETTY)(TORNBULL, BJON)";
             string s = "Fred:Corwill;Wilfred:Corwill;Barney:TornBull;Betty:Tornbull;Bjon:Tornbull;Raphael:Corwill;Alfred:Corwill";
-            Assert.AreEqual(l, Func_Task_5(s));
+            Assert.AreEqual(exmp, Func_Task_5(s));
         }
         [Test]
         public void Test11()
         {
-            List<KeyValuePair<string, string>> l = new List<KeyValuePair<string, string>> {
-            new KeyValuePair<string, string>("ANASTASIA", "AVKSENTIEVA"), new KeyValuePair<string, string>("VLAD", "LAVRENKO"),
-            new KeyValuePair<string, string>("VLAD", "SHEVCHENKO"), new KeyValuePair<string, string>("SLAVA", "US") };
+            string l = "(AVKSENTIEVA, ANASTASIA)(LAVRENKO, VLAD)(SHEVCHENKO, VLAD)(US, SLAVA)";
             string s = "Slava:Us;Anastasia:Avksentieva;Vlad:Lavrenko;Vlad:Shevchenko";
             Assert.AreEqual(l, Func_Task_5(s));
         }
@@ -109,6 +104,18 @@ namespace ClassLibrary1
             uint a = 156752;
             Assert.AreEqual("0.2.100.80", Func_Extra_Task_2(a));
         }
+        [Test]
+        public void Test16()
+        {
+            string s = "abcabdd";
+            Assert.AreEqual('c', First_Non_Repeating_Letter(s));
+        }
+        [Test]
+        public void Test17()
+        {
+            string s = "AbcaBDC";
+            Assert.AreEqual('D', First_Non_Repeating_Letter(s));
+        }
         public List<object> Func_Task_1(List<object> list)
         {
             List<object> filtered = list.Where(x => (x is int)).ToList();
@@ -119,21 +126,33 @@ namespace ClassLibrary1
             Console.WriteLine("Task 1: " + string.Join(", ", filtered));
             return filtered;
         }
-        public char First_Non_Repeating_Letter(string str)
+        public char First_Non_Repeating_Letter(string a)
         {
-            //string a = "STress";
-            for (int i = 0; i < str.Length; i++)
+            int count = 0, flag = 0;
+            string b = a;
+            if (a.Any(char.IsUpper))
             {
-                for (int j = 0; j < str.Length; j++)
+                a = a.ToLower();
+                flag++;
+            }
+            Console.WriteLine(a);
+            for (int i = 0; i < a.Length; i++)
+            {
+                for (int j = 0; j < a.Length; j++)
                 {
-                    if (str[i] == str[j])
+                    if ((a[i] == a[j]) && (i != j))
+                        count++;
+                    if (count > 0)
                         break;
-                    else
-                    {
-                        Console.WriteLine("Task 2: " + str[i]);
-                        return str[i];
-                    }
                 }
+                if (count == 0)
+                {
+                    if (flag == 1)
+                        a = b;
+                    Console.WriteLine("Task 2: " + a[i]);
+                    return a[i];
+                }
+                count = 0;
             }
             return '\0';
         }
@@ -145,7 +164,7 @@ namespace ClassLibrary1
             {
                 Sum += number % 10;
             }
-            if (Sum > 10)
+            if (Sum >= 10)
                 Sum = Digital_Root(Sum);
             return Sum;
         }
@@ -164,7 +183,7 @@ namespace ClassLibrary1
             Console.WriteLine("Task 4: " + flag);
             return flag;
         }
-        public List<KeyValuePair<string, string>> Func_Task_5(string s)
+        public string Func_Task_5(string s)
         {
             s = s.ToUpper();
             //Console.WriteLine(s);
@@ -177,10 +196,13 @@ namespace ClassLibrary1
                 //Console.WriteLine(temp.Key + " --- " + temp.Value);
             }
             var s2_sorted = s2.OrderBy(s => s.Value).ThenBy(s => s.Key).ToList();
-            Console.WriteLine("Task 5: ");
+            string final = "";
             for (int i = 0; i < s2_sorted.Count; i++)
-                Console.WriteLine(s2_sorted[i]);
-            return s2_sorted;
+            {
+                final += "(" + s2_sorted[i].Value + ", " + s2_sorted[i].Key + ")";
+            }
+            //Console.WriteLine(final);
+            return final;
         }
         public void swap(char[] arr, int i, int j)
         {
