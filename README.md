@@ -12,6 +12,7 @@ To begin work with this document, you need to install next NuGet Packages:
 6. SpecFlow.NUnit.
 7. Selenium.WebDriver.
 8. Selenium.Support.
+
 Also, to use WebDriver, you need to download ChromeWebDriver for your Chrome Browser using this link https://chromedriver.chromium.org/downloads. Then you should create a folder: "C:\WebDriver" and put there chromedriver.exe (if you use Windows).
 
 To make reports, you need to use SpecFlow.Plus.LivingDocPlugin, but before you need to install SpecFlow.Plus.LivingDoc.CLI using this command in PowerShell: "dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI". Next, to create .html file, use command: "livingdoc test-assembly C:\Users\freez\source\repos\ClassLibrary5\ClassLibrary5\bin\Debug\ClassLibrary5.dll". Next you need to run tests and after that you should write next command: "livingdoc test-assembly C:\Users\freez\source\repos\ClassLibrary5\ClassLibrary5\bin\Debug\ClassLibrary5.dll -t C:\Users\freez\source\repos\ClassLibrary5\ClassLibrary5\bin\Debug\TestExecution.json". After that you can open .html file and see the results.
