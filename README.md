@@ -10,6 +10,7 @@ To run this code, you need to install next NuGet packages:
 7. SpecFlow.Plus.LivingDocPlugin.
 8. RestSharp.
 9. Newtonsoft.Json.
+10. FluentAssertions.
 
 To make reports, you need to use SpecFlow.Plus.LivingDocPlugin, but before you need to install SpecFlow.Plus.LivingDoc.CLI using this command in PowerShell: "dotnet tool install --global SpecFlow.Plus.LivingDoc.CLI".
 Next, to create .html file, use command: "livingdoc test-assembly C:\Users\freez\source\repos\ClassLibrary4\ClassLibrary4\bin\Debug\ClassLibrary4.dll".
