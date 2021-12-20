@@ -25,3 +25,5 @@ If you want to execute tests, you have 4 ways:
 4. Open Developer PowerShell and use command "dotnet test -filter TestName" to run one test which you want.
 5. Open Command Line and use command "dotnet test ..\YourPath\File.sln" to run all tests.
 6. Open Command Line and use command "dotnet test --filter TestName ..\YourPath\File.sln" to run one test which you want.
+
+After passing tests (file was successfully deleted) you should close browser to get information about tests or to get report.
