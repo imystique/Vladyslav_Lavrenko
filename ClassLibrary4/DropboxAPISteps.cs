@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using FluentAssertions;
 
 namespace ClassLibrary4
 {
@@ -15,43 +17,58 @@ namespace ClassLibrary4
     {
 
         string path;
-        Box_Of_Drops obj = new Box_Of_Drops();
+        DropBoxRestAPI obj = new DropBoxRestAPI();
+        static RandomString rndstr = new RandomString();
+        string random;
         IRestResponse response;
 
-        [Given(@"I have a file called Test\.txt")]
+        [Given(@"I have a file")]
         public void GivenIHaveAFileCalledTest_Txt()
         {
-            path = "/Test.txt";
+            random = rndstr.RandomStr();
+            path = "Test_" + random + ".txt";
         }
 
-        [When(@"I upload file Test\.txt to Dropbox")]
+        [When(@"I upload file to Dropbox")]
         public void WhenIUploadFileTest_TxtToDropbox()
         {
             response = obj.Upload(path);
         }
-
-        [Given(@"I have an uploaded file Test\.txt")]
-        public void GivenIHaveAnUploadedFileTest_Txt()
-        {
-            path = "/Test.txt";
-        }
         
-        [When(@"I request a file Test\.txt metadata by id")]
+        [When(@"I request a file metadata by id")]
         public void WhenIRequestAFileTest_TxtMetadataById()
         {
-            response = obj.Get_File_MetaData(obj.Func());
+            response = obj.Get_File_MetaData(obj.Get_File_ID(path));
         }
         
-        [When(@"I delete file Test\.txt from Dropbox")]
+        [When(@"I delete file from Dropbox")]
         public void WhenIDeleteFileTest_TxtFromDropbox()
         {
             response = obj.Delete_File(path);
         }
         
-        [Then(@"I should get Status Code OK")]
-        public void ThenIShouldGetStatusCode()
+        [Then(@"The file should be uploaded on Dropbox")]
+        public void TheFileShouldBeUploadedOnDropbox()
         {
-            Assert.IsTrue(response.IsSuccessful);
+            response = obj.Get_List_Folder();
+            var json = JsonConvert.DeserializeObject(response.Content);
+            
+            json.ToString().Should().Contain(path);
+        }
+
+        [Then(@"I should get File Name")]
+        public void ThenIShouldGetFileName()
+        {
+            var json = JsonConvert.DeserializeObject(response.Content);
+            json.ToString().Should().Contain(path);
+        }
+
+        [Then(@"File should not exist")]
+        public void ThenFileShouldNotExist()
+        {
+            response = obj.Get_List_Folder();
+            var json = (JObject)JsonConvert.DeserializeObject(response.Content);
+            json.ToString().Should().NotContain(path);
         }
 
     }
