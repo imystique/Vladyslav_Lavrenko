@@ -1,5 +1,7 @@
 # Vladyslav_Lavrenko
 
+☃️ Success is a journey, not a destination ☃️
+
 To run this code, you need to install next NuGet packages:
 1. Microsoft.NET.Test.Sdk.
 2. NUnit.
